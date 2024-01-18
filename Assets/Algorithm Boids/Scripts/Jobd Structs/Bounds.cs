@@ -17,7 +17,7 @@ public struct Bounds : IJobParallelFor
 
 
 
-    private Vector3 Compensate(float delta, Vector3 direction)
+    private Vector3 CompensateBoundaryExceedance(float delta, Vector3 direction)
     {
         float threshold = 3f;
         float multiplier = 100f;
@@ -38,11 +38,11 @@ public struct Bounds : IJobParallelFor
         Vector3 size = areaSize * 0.5f;
 
         accelerations[index] +=
-            Compensate(-size.x - position.x, Vector3.right) +
-            Compensate(size.x - position.x, Vector3.left) +
-            Compensate(-size.y - position.y, Vector3.up) +
-            Compensate(size.y - position.y, Vector3.down) +
-            Compensate(-size.z - position.z, Vector3.forward) +
-            Compensate(size.z - position.z, Vector3.back);
+            CompensateBoundaryExceedance(-size.x - position.x, Vector3.right) +
+            CompensateBoundaryExceedance(size.x - position.x, Vector3.left) +
+            CompensateBoundaryExceedance(-size.y - position.y, Vector3.up) +
+            CompensateBoundaryExceedance(size.y - position.y, Vector3.down) +
+            CompensateBoundaryExceedance(-size.z - position.z, Vector3.forward) +
+            CompensateBoundaryExceedance(size.z - position.z, Vector3.back);
     }
 }

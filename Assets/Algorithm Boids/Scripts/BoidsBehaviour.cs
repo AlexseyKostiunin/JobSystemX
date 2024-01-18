@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using Unity.Collections;
 using UnityEngine.Jobs;
 using UnityEngine;
@@ -5,17 +6,26 @@ using Unity.Jobs;
 
 public class BoidsBehaviour : MonoBehaviour
 {
+    [BoxGroup("Common")]
     [SerializeField] private int _countCreature;
-    [SerializeField] private float _destinationThreshold;
 
+    [BoxGroup("Common")]
     [SerializeField] private GameObject _prefab;
 
-    [SerializeField] private Vector3 _areaSize;
+    [BoxGroup("Movement")]
     [SerializeField] private float _velocityLimit;
+
+    [BoxGroup("Acceleration")]
+    [SerializeField] private float _destinationThreshold;
+
+    [BoxGroup("Acceleration")]
     [SerializeField] private Vector3 _accelerationsWeights;
 
+    [BoxGroup("Bound")]
+    [SerializeField] private Vector3 _areaSize;
+
     private NativeArray<Vector3> _position;
-    private NativeArray<Vector3> _velocities;
+    private NativeArray<Vector3> _speed;
     private NativeArray<Vector3> _accelerations;
 
     private TransformAccessArray _transformAccessArray;
@@ -25,18 +35,17 @@ public class BoidsBehaviour : MonoBehaviour
 
     private void Start()
     {
-        _position = new NativeArray<Vector3>(_countCreature, Allocator.Persistent);
-        _velocities = new NativeArray<Vector3>(_countCreature, Allocator.Persistent);
-        _accelerations = new NativeArray<Vector3>(_countCreature, Allocator.Persistent);
+        InitializeNativeArrays();
+        InitializeTransformAccessArray();
+    }
 
-        Transform[] transformsArray = new Transform[_countCreature];
-        for (int i = 0; i < _countCreature; i++)
-        {
-            transformsArray[i] = Instantiate(_prefab).transform;
-            _velocities[i] = Random.insideUnitSphere;
-        }
+    private void OnDestroy()
+    {
+        _position.Dispose();
+        _speed.Dispose();
+        _accelerations.Dispose();
 
-        _transformAccessArray = new TransformAccessArray(transformsArray);
+        _transformAccessArray.Dispose();
     }
 
     private void Update()
@@ -51,7 +60,7 @@ public class BoidsBehaviour : MonoBehaviour
         Acceleration acceleration = new Acceleration()
         {
             positions = _position,
-            velocities = _velocities,
+            speeds = _speed,
             accelerations = _accelerations,
             destinationThreshold = _destinationThreshold,
             weights = _accelerationsWeights
@@ -60,7 +69,7 @@ public class BoidsBehaviour : MonoBehaviour
         Movement movement = new Movement()
         {
             positions = _position,
-            velocities = _velocities,
+            speeds = _speed,
             accelerations = _accelerations,
             deltaTime = Time.deltaTime,
             velocityLimit = _velocityLimit
@@ -73,16 +82,28 @@ public class BoidsBehaviour : MonoBehaviour
         movementHandle.Complete();
     }
 
-    private void OnDestroy()
-    {
-        _position.Dispose();
-        _velocities.Dispose();
-        _transformAccessArray.Dispose();
-        _accelerations.Dispose();
-    }
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(Vector3.zero, _areaSize);
+    }
+
+    private void InitializeNativeArrays()
+    {
+        _position = new NativeArray<Vector3>(_countCreature, Allocator.Persistent);
+        _speed = new NativeArray<Vector3>(_countCreature, Allocator.Persistent);
+        _accelerations = new NativeArray<Vector3>(_countCreature, Allocator.Persistent);
+    }
+
+    private void InitializeTransformAccessArray()
+    {
+        Transform[] transformsArray = new Transform[_countCreature];
+
+        for (int i = 0; i < _countCreature; i++)
+        {
+            transformsArray[i] = Instantiate(_prefab).transform;
+            _speed[i] = Random.insideUnitSphere;
+        }
+
+        _transformAccessArray = new TransformAccessArray(transformsArray);
     }
 }
