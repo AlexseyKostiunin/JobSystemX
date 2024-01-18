@@ -339,11 +339,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _countCreature: 1000
-  _destinationThreshold: 3
   _prefab: {fileID: 4229989075014035394, guid: 7a30e0606111f8141a10bc6903649fd4, type: 3}
-  _areaSize: {x: 25, y: 15, z: 15}
-  _velocityLimit: 3
+  _speedLimit: 5
+  _destinationThreshold: 3
   _accelerationsWeights: {x: 5, y: 0.5, z: 0.4}
+  _areaSize: {x: 25, y: 15, z: 15}
 --- !u!4 &1300574296
 Transform:
   m_ObjectHideFlags: 0

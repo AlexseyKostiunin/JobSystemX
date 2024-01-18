@@ -11,7 +11,7 @@ public struct Movement : IJobParallelForTransform
     public NativeArray<Vector3> accelerations;
 
     public float deltaTime;
-    public float velocityLimit;
+    public float speedLimit;
 
 
 
@@ -23,7 +23,7 @@ public struct Movement : IJobParallelForTransform
 
     private Vector3 LimitSpeed(Vector3 acceleration, Vector3 direction)
     {
-        return direction * Mathf.Clamp(acceleration.magnitude, 1, velocityLimit);
+        return direction * Mathf.Clamp(acceleration.magnitude, 1, speedLimit);
     }
 
 

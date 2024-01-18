@@ -13,7 +13,7 @@ public class BoidsBehaviour : MonoBehaviour
     [SerializeField] private GameObject _prefab;
 
     [BoxGroup("Movement")]
-    [SerializeField] private float _velocityLimit;
+    [SerializeField] private float _speedLimit;
 
     [BoxGroup("Acceleration")]
     [SerializeField] private float _destinationThreshold;
@@ -72,7 +72,7 @@ public class BoidsBehaviour : MonoBehaviour
             speeds = _speed,
             accelerations = _accelerations,
             deltaTime = Time.deltaTime,
-            velocityLimit = _velocityLimit
+            speedLimit = _speedLimit
         };
 
         JobHandle boundsHandle = bounds.Schedule(_countCreature, 0);
