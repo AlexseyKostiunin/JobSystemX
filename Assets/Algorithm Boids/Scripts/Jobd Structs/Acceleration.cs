@@ -21,7 +21,24 @@ public struct Acceleration : IJobParallelFor
 
 
 
-    private int TotalNumbersCreatures => positions.Length - 1;
+    public Acceleration(
+        NativeArray<Vector3> positions, 
+        NativeArray<Vector3> speeds, 
+        NativeArray<Vector3> accelerations, 
+        Vector3 weights, 
+        float destinationThreshold)
+    {
+        this.positions = positions;
+        this.speeds = speeds;
+        this.accelerations = accelerations;
+        this.weights = weights;
+        this.destinationThreshold = destinationThreshold;
+    }
+
+
+
+
+    private int _totalNumbersCreatures => positions.Length - 1;
 
 
 
@@ -32,7 +49,7 @@ public struct Acceleration : IJobParallelFor
         Vector3 averageSpeed = Vector3.zero;
         Vector3 averagePosition = Vector3.zero;
 
-        for (int i = 0; i < TotalNumbersCreatures; i++)
+        for (int i = 0; i < _totalNumbersCreatures; i++)
         {
             if (i == index)
                 continue;
@@ -49,8 +66,8 @@ public struct Acceleration : IJobParallelFor
         }
 
         accelerations[index] += 
-            (averageSpread / TotalNumbersCreatures) * weights.x +
-            (averageSpeed / TotalNumbersCreatures) * weights.y +
-            (averagePosition / TotalNumbersCreatures - positions[index]) * weights.z;
+            (averageSpread / _totalNumbersCreatures) * weights.x +
+            (averageSpeed / _totalNumbersCreatures) * weights.y +
+            (averagePosition / _totalNumbersCreatures - positions[index]) * weights.z;
     }
 }

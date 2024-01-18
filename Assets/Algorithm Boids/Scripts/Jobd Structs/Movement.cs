@@ -16,6 +16,23 @@ public struct Movement : IJobParallelForTransform
 
 
 
+    public Movement(
+        NativeArray<Vector3> positions, 
+        NativeArray<Vector3> speeds, 
+        NativeArray<Vector3> accelerations, 
+        float deltaTime, 
+        float speedLimit)
+    {
+        this.positions = positions;
+        this.speeds = speeds;
+        this.accelerations = accelerations;
+        this.deltaTime = deltaTime;
+        this.speedLimit = speedLimit;
+    }
+
+
+
+
     private void ResetAcceleration(int index)
     {
         accelerations[index] = Vector3.zero;

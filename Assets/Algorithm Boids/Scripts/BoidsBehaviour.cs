@@ -50,33 +50,12 @@ public class BoidsBehaviour : MonoBehaviour
 
     private void Update()
     {
-        Bounds bounds = new Bounds()
-        {
-            positions = _position,
-            accelerations = _accelerations,
-            areaSize = _areaSize
-        };
-
-        Acceleration acceleration = new Acceleration()
-        {
-            positions = _position,
-            speeds = _speed,
-            accelerations = _accelerations,
-            destinationThreshold = _destinationThreshold,
-            weights = _accelerationsWeights
-        };
-
-        Movement movement = new Movement()
-        {
-            positions = _position,
-            speeds = _speed,
-            accelerations = _accelerations,
-            deltaTime = Time.deltaTime,
-            speedLimit = _speedLimit
-        };
+        Bounds bounds = new Bounds(_position, _accelerations, _areaSize);
+        Acceleration acceleration = new Acceleration(_position, _speed, _accelerations, _accelerationsWeights, _destinationThreshold);
+        Movement movement = new Movement(_position, _speed, _accelerations, Time.deltaTime, _speedLimit);
 
         JobHandle boundsHandle = bounds.Schedule(_countCreature, 0);
-        JobHandle accelerationHandle = acceleration.Schedule(_countCreature , 0, boundsHandle);
+        JobHandle accelerationHandle = acceleration.Schedule(_countCreature, 0, boundsHandle);
         JobHandle movementHandle = movement.Schedule(_transformAccessArray, accelerationHandle);
 
         movementHandle.Complete();

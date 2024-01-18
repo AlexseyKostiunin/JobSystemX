@@ -17,6 +17,19 @@ public struct Bounds : IJobParallelFor
 
 
 
+    public Bounds(
+        NativeArray<Vector3> positions, 
+        NativeArray<Vector3> accelerations, 
+        Vector3 areaSize)
+    {
+        this.positions = positions;
+        this.accelerations = accelerations;
+        this.areaSize = areaSize;
+    }
+
+
+
+
     private Vector3 CompensateBoundaryExceedance(float delta, Vector3 direction)
     {
         float threshold = 3f;
