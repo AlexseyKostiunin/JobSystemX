@@ -10,6 +10,7 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
@@ -70,3 +71,12 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/Plugins/Sirenix/Demos
+Assets/Plugins/Cameras/StrategyCameraLite/Zenject/Source/Zenject.csproj.meta
+Assets/Plugins/Cameras/StrategyCameraLite/Zenject/OptionalExtras/Signals/Zenject-Signals.csproj.meta
+Assets/Plugins/Cameras/StrategyCameraLite/Zenject/OptionalExtras/ReflectionBaking/Zenject-ReflectionBaking.csproj.meta
+Assets/KriptoFX
+
+Assets/_TRASH/Gizmos/MasterAudio/MasterAudio Icon.png
+Assets/_TRASH/Gizmos/MasterAudio/PlaylistController Icon.png
+Assets/_TRASH/GenORM
